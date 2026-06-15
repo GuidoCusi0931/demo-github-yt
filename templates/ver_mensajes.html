@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Mensajes</title>
+    <style>
+        /* Un poco de estilo básico para que la tabla no se vea amontonada */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>📩 Mensajes Recibidos en la BD</h1>
+    
+    <p>A continuación se muestran los datos guardados en SQLite:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Mensaje</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fila in lista_mensajes %}
+            <tr>
+                <td>{{ fila['id'] }}</td>
+                <td>{{ fila['nombre'] }}</td>
+                <td>{{ fila['mensaje'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <hr>
+    <a href="/contacto">Volver al Formulario</a> | <a href="/">Inicio</a>
+</body>
+</html>

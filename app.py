@@ -56,5 +56,22 @@ def contacto():
 
     return render_template('contacto.html', mensaje_exito=mensaje_exito)
 
+@app.route('/mensajes')
+def ver_mensajes():
+    # 1. Nos conectamos a la base de datos
+    conexion = sqlite3.connect('database.db')
+    # Cambiamos el formato de salida para que sea más fácil de leer en el HTML (como un diccionario)
+    conexion.row_factory = sqlite3.Row
+    cursor = conexion.cursor()
+    
+    # 2. Traemos todos los registros de la tabla mensajes
+    cursor.execute('SELECT * FROM mensajes')
+    todos_los_mensajes = cursor.fetchall()  # Captura todas las filas
+    
+    conexion.close()
+    
+    # 3. Le pasamos esos mensajes al nuevo archivo HTML
+    return render_template('ver_mensajes.html', lista_mensajes=todos_los_mensajes)
+
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
