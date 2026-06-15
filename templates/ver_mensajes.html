@@ -42,6 +42,9 @@
                 <td>{{ fila['id'] }}</td>
                 <td>{{ fila['nombre'] }}</td>
                 <td>{{ fila['mensaje'] }}</td>
+                <td>
+                    <a href="/editar/{{ fila['id'] }}">✍️ Editar</a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
