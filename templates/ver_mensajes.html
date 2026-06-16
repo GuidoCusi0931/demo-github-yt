@@ -44,6 +44,7 @@
                 <td>{{ fila['mensaje'] }}</td>
                 <td>
                     <a href="/editar/{{ fila['id'] }}">✍️ Editar</a>
+                    <a href="/eliminar/{{ fila['id'] }}" style="color: red;" onclick="return confirm('¿Seguro que quieres borrar este mensaje?');">🗑️ Eliminar</a>
                 </td>
             </tr>
             {% endfor %}

@@ -110,5 +110,20 @@ def editar_mensaje(id):
         from flask import redirect, url_for
         return redirect(url_for('ver_mensajes'))
 
+@app.route('/eliminar/<int:id>')
+def eliminar_mensaje(id):
+    conexion = sqlite3.connect('database.db')
+    cursor = conexion.cursor()
+    
+    # El comando DELETE borra la fila que coincida con el ID
+    cursor.execute('DELETE FROM mensajes WHERE id = ?', (id,))
+    
+    conexion.commit()
+    conexion.close()
+    
+    # Redirigimos de inmediato a la lista para ver el cambio
+    from flask import redirect, url_for
+    return redirect(url_for('ver_mensajes'))
+
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
