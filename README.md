@@ -1,61 +1,40 @@
-# Demo GitHub YT
+# 🚀 Mi Primer CRUD con Flask y SQLite
 
-Proyecto de demostración para aprender a usar Git y GitHub.
+¡Bienvenido! Este es un proyecto de práctica backend donde construí una aplicación web interactiva desde cero utilizando **Python**, el microframework **Flask**, y **SQLite** como motor de base de datos. 
 
-## Descripción
+La aplicación implementa el ciclo completo de un **CRUD** (Create, Read, Update, Delete) a través de un sistema de gestión de mensajes de contacto.
 
-Este repositorio es un ejemplo básico para practicar el flujo de trabajo con control de versiones: crear un repositorio, hacer commits y subir cambios a GitHub.
+---
 
-## Requisitos
+## 🛠️ Tecnologías Utilizadas
 
-- [Git](https://git-scm.com/) instalado en tu sistema
-- Una cuenta en [GitHub](https://github.com/)
+* **Python 3** (Lógica del servidor)
+* **Flask** (Framework web)
+* **Jinja2** (Motor de plantillas HTML dinámicas)
+* **SQLite3** (Base de datos relacional local)
+* **Git & GitHub** (Control de versiones)
 
-## Instalación
+---
 
+## 📋 Características del Proyecto
+
+* **Entorno Virtual (`venv`):** Configurado para mantener las dependencias aisladas de forma limpia.
+* **Rutas Dinámicas:** Páginas de Inicio, Perfil de usuario, Formulario de Contacto, Visualización y Edición.
+* **Persistencia de Datos:** Creación automática de la base de datos (`database.db`) e inserción segura de registros para evitar inyecciones SQL.
+* **Ciclo CRUD Completo:**
+    * **C (Create):** Envío de datos mediante formulario web con el método `POST`.
+    * **R (Read):** Extracción de datos con `SELECT` y renderizado en una tabla HTML.
+    * **U (Update):** Modificación de registros existentes mediante formularios precargados y el comando `UPDATE`.
+    * **D (Delete):** Eliminación de registros con confirmación previa en el navegador utilizando `DELETE FROM`.
+* **Compatibilidad con macOS:** Configuración adaptada al puerto `5001` para evitar conflictos con el receptor AirPlay nativo de Mac.
+
+---
+
+## 💻 Cómo Ejecutar el Proyecto Localmente
+
+Sigue estos pasos para clonar y arrancar la aplicación en tu computadora:
+
+### 1. Clonar el repositorio
 ```bash
-git clone <url-del-repositorio>
-cd demo-github-yt
-```
-
-## Uso
-
-1. Crea o modifica archivos en el proyecto.
-2. Revisa los cambios con `git status`.
-3. Añade los archivos al staging area:
-
-```bash
-git add .
-```
-
-4. Crea un commit con un mensaje descriptivo:
-
-```bash
-git commit -m "Describe tus cambios aquí"
-```
-
-5. Sube los cambios a GitHub:
-
-```bash
-git push origin main
-```
-
-## Estructura del proyecto
-
-```
-demo-github-yt/
-├── README.md
-└── ...
-```
-
-## Contribuir
-
-1. Haz un fork del repositorio.
-2. Crea una rama para tu cambio (`git checkout -b mi-cambio`).
-3. Haz commit de tus cambios.
-4. Abre un Pull Request.
-
-## Licencia
-
-Este proyecto es de código abierto y está disponible bajo la licencia MIT.
-haciendo cambios en el archivo para el 3er commit.
+git clone <URL_DE_TU_REPOSITORIO_DE_GITHUB>
+cd "demo github yt"
