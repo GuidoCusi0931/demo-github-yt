@@ -1,13 +1,22 @@
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask, render_template, request
 import sqlite3  # <-- 1. Importamos la librería de Base de Datos
 
 app = Flask(__name__)
 
-# 2. Función para conectar a la BD y crear la tabla si no existe
+app.config['SECRET_KEY'] = 'clavesecreta123' 
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+# Esto le dice a Flask-Login a dónde mandar al usuario si intenta entrar a una ruta protegida sin loguearse:
+login_manager.login_view = 'login'
+
 def init_db():
     conexion = sqlite3.connect('database.db')
     cursor = conexion.cursor()
-    # Dejamos los campos TEXT limpios y sencillos
+    
+    # Tabla de mensajes (la que ya tenías)
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS mensajes (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -15,8 +24,38 @@ def init_db():
             mensaje TEXT
         )
     ''')
+    
+    # NUEVA: Tabla de usuarios
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS usuarios (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            email TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL
+        )
+    ''')
+    
     conexion.commit()
     conexion.close()
+
+# El molde que exige Flask-Login
+class Usuario(UserMixin):
+    def __init__(self, id, email):
+        self.id = id
+        self.email = email
+
+# El cargador que busca al usuario en la BD usando el ID de la cookie
+@login_manager.user_loader
+def load_user(user_id):
+    conexion = sqlite3.connect('database.db')
+    conexion.row_factory = sqlite3.Row
+    cursor = conexion.cursor()
+    cursor.execute('SELECT * FROM usuarios WHERE id = ?', (user_id,))
+    user_row = cursor.fetchone()
+    conexion.close()
+    
+    if user_row:
+        return Usuario(id=user_row['id'], email=user_row['email'])
+    return None
 
 # Ejecutamos la función para que la BD se cree al arrancar la app
 init_db()
@@ -57,6 +96,7 @@ def contacto():
     return render_template('contacto.html', mensaje_exito=mensaje_exito)
 
 @app.route('/mensajes')
+@login_required # <-- ¡ESTE ES EL CANDADO!
 def ver_mensajes():
     # 1. Nos conectamos a la base de datos
     conexion = sqlite3.connect('database.db')
@@ -74,6 +114,7 @@ def ver_mensajes():
     return render_template('ver_mensajes.html', lista_mensajes=todos_los_mensajes)
 
 @app.route('/editar/<int:id>', methods=['GET', 'POST'])
+@login_required # <-- ¡ESTE ES EL CANDADO!
 def editar_mensaje(id):
     conexion = sqlite3.connect('database.db')
     conexion.row_factory = sqlite3.Row
@@ -111,6 +152,7 @@ def editar_mensaje(id):
         return redirect(url_for('ver_mensajes'))
 
 @app.route('/eliminar/<int:id>')
+@login_required # <-- ¡ESTE ES EL CANDADO!
 def eliminar_mensaje(id):
     conexion = sqlite3.connect('database.db')
     cursor = conexion.cursor()
@@ -124,6 +166,57 @@ def eliminar_mensaje(id):
     # Redirigimos de inmediato a la lista para ver el cambio
     from flask import redirect, url_for
     return redirect(url_for('ver_mensajes'))
+
+@app.route('/registro', methods=['GET', 'POST'])
+def registro():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+        
+        # Encriptamos la contraseña antes de guardarla
+        password_encriptada = generate_password_hash(password)
+        
+        try:
+            conexion = sqlite3.connect('database.db')
+            cursor = conexion.cursor()
+            cursor.execute('INSERT INTO usuarios (email, password) VALUES (?, ?)', (email, password_encriptada))
+            conexion.commit()
+            conexion.close()
+            return "¡Usuario registrado con éxito! Ya puedes ir a /login"
+        except sqlite3.IntegrityError:
+            return "Ese email ya está registrado."
+            
+    return render_template('registro.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+        
+        conexion = sqlite3.connect('database.db')
+        conexion.row_factory = sqlite3.Row
+        cursor = conexion.cursor()
+        cursor.execute('SELECT * FROM usuarios WHERE email = ?', (email,))
+        usuario_db = cursor.fetchone()
+        conexion.close()
+        
+        # Si el usuario existe y la contraseña coincide con el hash
+        if usuario_db and check_password_hash(usuario_db['password'], password):
+            # Creamos el objeto de usuario y le damos la sesión activa
+            usuario_objeto = Usuario(id=usuario_db['id'], email=usuario_db['email'])
+            login_user(usuario_objeto)
+            return f"¡Bienvenido {email}! Has iniciado sesión con éxito."
+        else:
+            return "Credenciales incorrectas, vuelve a intentarlo."
+            
+    return render_template('login.html')
+
+@app.route('/logout')
+@login_required # <-- ¡ESTE ES EL CANDADO!
+def logout():
+    logout_user() # Rompe la sesión del usuario
+    return "Has cerrado sesión correctamente."
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
