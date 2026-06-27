@@ -1,6 +1,6 @@
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import sqlite3  # <-- 1. Importamos la librería de Base de Datos
 
 app = Flask(__name__)
@@ -213,10 +213,11 @@ def login():
     return render_template('login.html')
 
 @app.route('/logout')
-@login_required # <-- ¡ESTE ES EL CANDADO!
+@login_required
 def logout():
-    logout_user() # Rompe la sesión del usuario
-    return "Has cerrado sesión correctamente."
+    logout_user() # Rompe la sesión segura
+    # En lugar de devolver texto plano viejo, redirigimos al login
+    return redirect(url_for('login'))
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)

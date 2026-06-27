@@ -1,21 +1,37 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Editar Mensaje</title>
-</head>
-<body>
-    <h1>✏️ Editar Mensaje #{{ mensaje['id'] }}</h1>
+{% extends 'base.html' %}
 
-    <form action="/editar/{{ mensaje['id'] }}" method="POST">
-        <label for="nombre">Nombre:</label><br>
-        <input type="text" id="nombre" name="nombre" value="{{ mensaje['nombre'] }}" required><br><br>
+{% block titulo %}Editar Mensaje{% endblock %}
 
-        <label for="mensaje">Mensaje:</label><br>
-        <textarea id="mensaje" name="mensaje" required>{{ mensaje['mensaje'] }}</textarea><br><br>
+{% block contenido %}
+<div class="row justify-content-center">
+    <div class="col-12 col-md-6">
+        
+        <div class="card shadow">
+            <div class="card-header bg-warning text-dark fw-bold">
+                ✏️ Editar Registro #{{ mensaje['id'] }}
+            </div>
+            <div class="card-body">
+                <form action="/editar/{{ mensaje['id'] }}" method="POST">
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Nombre del Remitente</label>
+                        <input type="text" class="form-control" name="nombre" value="{{ mensaje['nombre'] }}" required>
+                    </div>
 
-        <button type="submit">Guardar Cambios</button>
-        <a href="/mensajes">Cancelar</a>
-    </form>
-</body>
-</html>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Cuerpo del Mensaje</label>
+                        <textarea class="form-control" name="mensaje" rows="4" required>{{ mensaje['mensaje'] }}</textarea>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="/mensajes" class="btn btn-outline-secondary">Volver</a>
+                        <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
