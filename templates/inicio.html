@@ -1,13 +1,28 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Inicio</title>
-</head>
-<body>
-    <h1>🏠 Bienvenido a mi sitio web (Con Jinja2)</h1>
-    <p>Este texto ahora viene de un archivo HTML real.</p>
-    <hr>
-    <a href="/perfil">Ir al Perfil</a> | <a href="/contacto">Ir a Contacto</a>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block titulo %}Inicio - Sistema de Mensajes{% endblock %}
+
+{% block contenido %}
+<div class="row justify-content-center text-center my-5">
+    <div class="col-12 col-md-8">
+        <div class="p-5 bg-white rounded shadow-sm">
+            <h1 class="display-4 fw-bold text-dark mb-3">🏠 Bienvenido a mi sitio web</h1>
+            <p class="lead text-muted mb-4">
+                Esta es una aplicación web segura desarrollada con Flask, Python, SQLite y maquetada con Bootstrap 5 de forma adaptable.
+            </p>
+            <hr class="my-4">
+            
+            {% if current_user.is_authenticated %}
+                <p class="text-secondary">Ya estás autenticado en el sistema.</p>
+                <a href="/mensajes" class="btn btn-primary btn-lg px-4 shadow-sm">Ir a la Bandeja de Entrada</a>
+            {% else %}
+                <p class="text-secondary">Inicia sesión o regístrate para gestionar tus registros de forma segura.</p>
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-3">
+                    <a href="/login" class="btn btn-outline-primary btn-lg px-4">Iniciar Sesión</a>
+                    <a href="/registro" class="btn btn-primary btn-lg px-4 shadow-sm">Crear Cuenta</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
