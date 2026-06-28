@@ -182,7 +182,7 @@ def registro():
             cursor.execute('INSERT INTO usuarios (email, password) VALUES (?, ?)', (email, password_encriptada))
             conexion.commit()
             conexion.close()
-            return "¡Usuario registrado con éxito! Ya puedes ir a /login"
+            return redirect(url_for('login'))
         except sqlite3.IntegrityError:
             return "Ese email ya está registrado."
             
