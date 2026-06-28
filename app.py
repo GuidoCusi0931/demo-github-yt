@@ -206,7 +206,7 @@ def login():
             # Creamos el objeto de usuario y le damos la sesión activa
             usuario_objeto = Usuario(id=usuario_db['id'], email=usuario_db['email'])
             login_user(usuario_objeto)
-            return f"¡Bienvenido {email}! Has iniciado sesión con éxito."
+            return redirect(url_for('ver_mensajes'))
         else:
             return "Credenciales incorrectas, vuelve a intentarlo."
             

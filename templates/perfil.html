@@ -1,13 +1,35 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Perfil</title>
-</head>
-<body>
-    <h1>👤 Perfil de {{ usuario }}</h1>
-    <p>Rol: {{ rol }}</p>
-    <hr>
-    <a href="/">Volver al Inicio</a>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block titulo %}Mi Perfil - Sistema de Mensajes{% endblock %}
+
+{% block contenido %}
+<div class="row justify-content-center my-5">
+    <div class="col-12 col-md-6">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4 text-center">
+                <div class="mb-3">
+                    <span class="display-3">👤</span>
+                </div>
+                <h2 class="fw-bold text-dark mb-1">Perfil de Usuario</h2>
+                <p class="text-muted mb-4">Información de tu cuenta segura</p>
+                
+                <div class="bg-light p-3 rounded mb-4 text-start">
+                    <div class="mb-2">
+                        <small class="text-muted d-block">Correo Electrónico</small>
+                        <span class="fw-bold text-secondary">{{ current_user.email }}</span>
+                    </div>
+                    <div>
+                        <small class="text-muted d-block">Estado de la cuenta</small>
+                        <span class="badge bg-success">Activa / Autenticada</span>
+                    </div>
+                </div>
+                
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                    <a href="/mensajes" class="btn btn-outline-primary px-4">Ir a mis mensajes</a>
+                    <a href="/logout" class="btn btn-danger px-4 shadow-sm">Cerrar Sesión</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

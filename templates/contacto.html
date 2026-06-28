@@ -1,29 +1,22 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Contacto</title>
-</head>
-<body>
-    <h1>📞 Sección de Contacto</h1>
+{% extends 'base.html' %}
 
-    {% if mensaje_exito %}
-        <h3 style="color: green;">{{ mensaje_exito }}</h3>
-    {% endif %}
+{% block titulo %}Contacto - Enviar Mensaje{% endblock %}
 
-    <p>Déjame un mensaje:</p>
-
-    <form action="/contacto" method="POST">
-        <label for="nombre">Tu Nombre:</label><br>
-        <input type="text" id="nombre" name="nombre" required><br><br>
-
-        <label for="mensaje">Mensaje:</label><br>
-        <textarea id="mensaje" name="mensaje" required></textarea><br><br>
-
-        <button type="submit">Enviar Mensaje</button>
-    </form>
-
-    <hr>
-    <a href="/">Volver al Inicio</a>
-</body>
-</html>
+{% block contenido %}
+<div class="row justify-content-center my-5">
+    <div class="col-12 col-md-6">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+                <h2 class="fw-bold text-center mb-4">✉️ Enviar un Mensaje</h2>
+                <form action="/contacto" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">Tu Mensaje</label>
+                        <textarea name="mensaje" rows="4" class="form-control" placeholder="Escribe el contenido de tu mensaje aquí..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 py-2 shadow-sm">Enviar Mensaje Seguro</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
