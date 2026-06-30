@@ -1,40 +1,45 @@
-# 🚀 Mi Primer CRUD con Flask y SQLite
+# 📱 Sistema Seguro de Registro y Mensajería Backend
 
-¡Bienvenido! Este es un proyecto de práctica backend donde construí una aplicación web interactiva desde cero utilizando **Python**, el microframework **Flask**, y **SQLite** como motor de base de datos. 
+Aplicación web modular desarrollada en Python con el framework **Flask**, persistencia de datos en **SQLite3**, seguridad criptográfica para autenticación de usuarios y maquetación adaptable mediante **Bootstrap 5**.
 
-La aplicación implementa el ciclo completo de un **CRUD** (Create, Read, Update, Delete) a través de un sistema de gestión de mensajes de contacto.
-
----
-
-## 🛠️ Tecnologías Utilizadas
-
-* **Python 3** (Lógica del servidor)
-* **Flask** (Framework web)
-* **Jinja2** (Motor de plantillas HTML dinámicas)
-* **SQLite3** (Base de datos relacional local)
-* **Git & GitHub** (Control de versiones)
+🚀 **[VER DEMO EN VIVO EN RENDER](https://sistema-mensajes-guido.onrender.com)** *(Nota: Al usar un plan gratuito en Render, el servidor puede demorar unos 50 segundos en arrancar si estuvo inactivo).*
 
 ---
 
-## 📋 Características del Proyecto
+## 🛠️ Características Principales
 
-* **Entorno Virtual (`venv`):** Configurado para mantener las dependencias aisladas de forma limpia.
-* **Rutas Dinámicas:** Páginas de Inicio, Perfil de usuario, Formulario de Contacto, Visualización y Edición.
-* **Persistencia de Datos:** Creación automática de la base de datos (`database.db`) e inserción segura de registros para evitar inyecciones SQL.
-* **Ciclo CRUD Completo:**
-    * **C (Create):** Envío de datos mediante formulario web con el método `POST`.
-    * **R (Read):** Extracción de datos con `SELECT` y renderizado en una tabla HTML.
-    * **U (Update):** Modificación de registros existentes mediante formularios precargados y el comando `UPDATE`.
-    * **D (Delete):** Eliminación de registros con confirmación previa en el navegador utilizando `DELETE FROM`.
-* **Compatibilidad con macOS:** Configuración adaptada al puerto `5001` para evitar conflictos con el receptor AirPlay nativo de Mac.
+* **Autenticación Segura:** Registro e Inicio de sesión protegido mediante hashing de contraseñas con la librería `Werkzeug` y gestión de estados de sesión con `Flask-Login`.
+* **Operaciones CRUD Completas:** Panel privado para crear, leer, actualizar y eliminar mensajes directamente de la base de datos relacional.
+* **Arquitectura Modular:** Separación de responsabilidades limpia dividida en controladores de rutas, esquemas de datos y archivos de configuración.
+* **Interfaz Responsive:** Diseño adaptado a dispositivos móviles utilizando el sistema de rejillas y contenedores de Bootstrap 5.
 
 ---
 
-## 💻 Cómo Ejecutar el Proyecto Localmente
+## 📁 Estructura del Proyecto (Arquitectura Modular)
 
-Sigue estos pasos para clonar y arrancar la aplicación en tu computadora:
+El código se encuentra organizado bajo el principio de separación de responsabilidades:
 
-### 1. Clonar el repositorio
-```bash
-git clone <URL_DE_TU_REPOSITORIO_DE_GITHUB>
-cd "demo github yt"
+* `app.py`: Punto de entrada e inicialización central del servidor y plugins.
+* `config.py`: Centralización de variables de entorno y claves criptográficas (`SECRET_KEY`).
+* `models.py`: Estructura y esquemas de las tablas de la base de datos (`usuarios` y `mensajes`).
+* `routes.py`: Controladores de tráfico web y lógica de negocio para cada endpoint de la app.
+* `templates/`: Capa de presentación (HTML + Jinja2) que hereda de un diseño global (`base.html`).
+
+---
+
+## 💻 Tecnologías Utilizadas
+
+* **Lenguaje:** Python 3
+* **Framework Web:** Flask
+* **Base de Datos:** SQLite3
+* **Seguridad:** Werkzeug (Password Hashing) & Flask-Login (Session Management)
+* **Frontend:** HTML5, Jinja2 y Bootstrap 5
+
+---
+
+## 🚀 Instalación y Ejecución Local
+
+1. Clonar el repositorio.
+2. Crear un entorno virtual: `python3 -m venv venv` e iniciarlo.
+3. Instalar las dependencias requeridas: `pip install -r requirements.txt`
+4. Ejecutar la aplicación: `python3 app.py` (Acceder localmente en `http://localhost:5001`).
