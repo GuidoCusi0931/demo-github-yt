@@ -3,12 +3,19 @@ import sqlite3
 
 # El molde que exige Flask-Login para manejar las sesiones activas
 class Usuario(UserMixin):
+    """
+    Molde de usuario que extiende UserMixin para integrarse con Flask-Login.
+    Permite gestionar propiedades como is_authenticated e is_active de forma nativa.
+    """
     def __init__(self, id, email):
         self.id = id
         self.email = email
 
 def init_db():
-    """Inicializa la base de datos y crea las tablas si no existen."""
+    """
+    Inicializa la base de datos SQLite3 de forma síncrona.
+    Crea las tablas de 'mensajes' y 'usuarios' con restricciones de integridad si no existen.
+    """
     conexion = sqlite3.connect('database.db')
     cursor = conexion.cursor()
     

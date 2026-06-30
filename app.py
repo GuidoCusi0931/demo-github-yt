@@ -4,21 +4,22 @@ from config import Config
 from models import init_db
 from routes import configure_routes
 
-# 1. Instanciamos la aplicación Flask
+# Inicialización de la instancia central de la aplicación web
 app = Flask(__name__)
 app.config.from_object(Config)
 
-# 2. Inicializamos el gestor de sesiones de login
+# Configuración del motor de sesiones seguras en el servidor
 login_manager = LoginManager()
 login_manager.init_app(app)
+# Define la ruta de redirección global para accesos no autorizados (@login_required)
 login_manager.login_view = 'login'
 
-# 3. Inicializamos las tablas de la base de datos al arrancar
+# Inicialización obligatoria del esquema de persistencia local
 init_db()
 
-# 4. Inyectamos las rutas de forma modular en nuestra app
+# Inyección modular de los controladores web de tráfico
 configure_routes(app, login_manager)
 
 if __name__ == '__main__':
-    # Configurado en puerto 5001 para coincidir con tu entorno de desarrollo local
+    # Ejecución en modo depuración local sobre el puerto alternativo de desarrollo
     app.run(debug=True, port=5001)
